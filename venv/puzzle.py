@@ -1,12 +1,14 @@
 from itertools import chain
+from copy import deepcopy
+
+from heuristics import misplaced_tile
 
 class Puzzle:
     '''A class representing the board and a node for the heap'''
-    def __init__(self, board, parent, level, cost, blank_pos):
+    def __init__(self, board, parent, level, blank_pos):
         self.board = board
         self.parent = parent
         self.level = level
-        self.cost = cost
         self.blank_pos = blank_pos
 
     def actions(self):
@@ -14,27 +16,54 @@ class Puzzle:
         Defines legal actions for a board state
         Remove actions that would move blank out of bounds
         Assumes board is square
+        :return: list of char strings of legal actions
         '''
         i, j = self.blank_pos
         legal_actions = ['U', 'D', 'L', 'R']
 
         if i == 0:
             legal_actions.remove('U')
-        if i == len(self.board):
+        if i == len(self.board) - 1:
             legal_actions.remove('D')
         if j == 0:
             legal_actions.remove('L')
-        if j == len(self.board):
+        if j == len(self.board) - 1:
             legal_actions.remove('R')
 
         return legal_actions
+
+    def generate_children(self):
+        '''
+        Generates possible children
+        :return: list of children
+        '''
+        children = []
+        for action in self.actions():
+            child = deepcopy(self)
+            child.parent = self
+            child.level = self.level + 1
+            i, j = self.blank_pos
+            if action == 'U':
+                child.blank_pos = (i-1, j)
+                child.board[i][j], child.board[i-1][j] = child.board[i-1][j], child.board[i][j]
+            elif action == 'D':
+                child.blank_pos = (i + 1, j)
+                child.board[i][j], child.board[i+1][j] = child.board[i+1][j], child.board[i][j]
+            elif action == 'L':
+                child.blank_pos = (i, j - 1)
+                child.board[i][j], child.board[i][j-1] = child.board[i][j-1], child.board[i][j]
+            elif action == 'R':
+                child.blank_pos = (i, j + 1)
+                child.board[i][j], child.board[i][j+1] = child.board[i][j+1], child.board[i][j]
+            children.append(child)
+        return children
 
     def is_solvable(self):
         '''
         check if puzzle is solvable
         a puzzle is solvable if the number of inversions is even
-        returns 0 if solvable, 1 if not
         reference: https://math.stackexchange.com/questions/293527/how-to-check-if-a-8-puzzle-is-solvable
+        :return: 0 if solvable, 1 if not
         '''
         inversions = 0
         flattened_board = list(chain.from_iterable(self.board))
@@ -44,4 +73,29 @@ class Puzzle:
                     inversions += 1
         return inversions % 2
 
+    def is_goal(self):
+        '''
+        Tests if board is in the goal state
+        :return: True if the board is the goal, False o/w
+        '''
+        misplaced_tiles = misplaced_tile(self.board)
+        if misplaced_tiles == 0:
+            return True
+        return False
 
+    def display(self):
+        print(f"Node level: {self.level}")
+        for row in self.board:
+            print(row)
+
+    def print_solution(self):
+        '''
+        Follow chain of parents to print final solution path
+        '''
+        solution = [self]
+        while self.parent is not None:
+            solution.append(self.parent)
+            self = self.parent
+
+        for puzzle in reversed(solution):
+            puzzle.display()
