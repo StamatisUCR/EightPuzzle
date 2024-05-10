@@ -15,6 +15,18 @@ class Puzzle:
         if heuristic is not None:
             self.heuristic_cost = heuristic_cost
 
+    def __lt__(self, other):
+        '''
+        Defines comparison of different puzzles
+        :param other: another puzzle instance
+        '''
+        self_cost = self.level
+        other_cost = other.level
+        if heuristics is not None:
+            self_cost += self.heuristic_cost
+            other_cost += other.heuristic_cost
+        return self_cost < other_cost
+
     def actions(self):
         '''
         Defines legal actions for a board state
