@@ -1,15 +1,19 @@
 from itertools import chain
 from copy import deepcopy
 
-from heuristics import misplaced_tile
+from heuristics import misplaced_tile, manhattan_distance
 
 class Puzzle:
     '''A class representing the board and a node for the heap'''
-    def __init__(self, board, parent, level, blank_pos):
+    def __init__(self, board, parent, level, blank_pos, heuristic, heuristic_cost):
         self.board = board
         self.parent = parent
         self.level = level
         self.blank_pos = blank_pos
+        self.heuristic = heuristic
+        self.heuristic_cost = None
+        if heuristic is not None:
+            self.heuristic_cost = heuristic_cost
 
     def actions(self):
         '''
@@ -32,10 +36,26 @@ class Puzzle:
 
         return legal_actions
 
+    def calculate_heuristic_cost(self):
+        '''
+        :return: h(n) for the puzzle
+        '''
+        cost = 0
+        if self.heuristic is None:
+            cost = 0
+        elif self.heuristic == 'misplaced':
+            cost = misplaced_tile(self.board)
+        elif self.heuristic == 'manhattan':
+            cost = manhattan_distance(self.board)
+        else:
+            raise Exception("Please enter a valid heuristic. Can be None, misplaced, or manhattan")
+
+        return cost
+
     def generate_children(self):
         '''
-        Generates possible children
-        :return: list of children
+        Generates possible puzzles from current puzzle
+        :return: list of child puzzles
         '''
         children = []
         for action in self.actions():
@@ -55,6 +75,8 @@ class Puzzle:
             elif action == 'R':
                 child.blank_pos = (i, j + 1)
                 child.board[i][j], child.board[i][j+1] = child.board[i][j+1], child.board[i][j]
+
+            child.heuristic_cost = child.calculate_heuristic_cost()
             children.append(child)
         return children
 
