@@ -15,11 +15,11 @@ def search(puzzle):
 
     queue = []
     heappush(queue, puzzle)
-    #explored_states = {}
+    explored_states = {}
     while queue:
         max_queue_size = max(max_queue_size, len(queue))
         current_node = heappop(queue)
-        #explored_states[tuple(chain.from_iterable(current_node.board))] = 'explored'
+        explored_states[tuple(chain.from_iterable(current_node.board))] = 'explored'
         nodes_expanded += 1
         if current_node.is_goal():
             print(f"Nodes expanded: {nodes_expanded}")
@@ -29,6 +29,5 @@ def search(puzzle):
 
         children = current_node.generate_children()
         for child in children:
-            # if tuple(chain.from_iterable(child.board)) not in explored_states:
-            #     heappush(queue, child)
-            heappush(queue, child)
+            if tuple(chain.from_iterable(child.board)) not in explored_states:
+                heappush(queue, child)
