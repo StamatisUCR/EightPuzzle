@@ -95,6 +95,8 @@ class Puzzle:
     def is_not_solvable(self):
         '''
         check if puzzle is solvable
+        Note that this method is only correct for NxN puzzles where N is odd. The criteria for puzzles where N is even
+        is slightly different, and not included in this 8-puzzle implementation.
         a puzzle is solvable if the number of inversions is even
         reference: https://math.stackexchange.com/questions/293527/how-to-check-if-a-8-puzzle-is-solvable
         :return: 0 if solvable, 1 if not
