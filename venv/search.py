@@ -11,6 +11,8 @@ def search(puzzle):
     nodes_expanded = 0
     max_queue_size = 0
     if puzzle.is_not_solvable():
+        print(f"Nodes expanded: {nodes_expanded}")
+        print(f"Max queue size: {max_queue_size}")
         raise Exception("This puzzle is not solvable! Please enter a solvable puzzle.")
 
     queue = []
