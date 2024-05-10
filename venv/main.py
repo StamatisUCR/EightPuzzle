@@ -83,10 +83,8 @@ def main():
     heuristic = None
     heuristic_distance = None
     if choice == '1':
-        search_alg = 'UCS'
         heuristic_distance = 0
     elif choice == '2':
-        search_alg = 'Astar'
         choice = input("Great! Please choose your heuristic. Type '1' for misplaced tile. Type '2' for manhattan distance. \n")
         if choice == '1':
             heuristic = 'misplaced'
