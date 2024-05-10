@@ -92,7 +92,7 @@ class Puzzle:
             children.append(child)
         return children
 
-    def is_solvable(self):
+    def is_not_solvable(self):
         '''
         check if puzzle is solvable
         a puzzle is solvable if the number of inversions is even

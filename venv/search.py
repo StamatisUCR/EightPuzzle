@@ -10,7 +10,7 @@ def search(puzzle):
     '''
     nodes_expanded = 0
     max_queue_size = 0
-    if puzzle.is_solvable():
+    if puzzle.is_not_solvable():
         raise Exception("This puzzle is not solvable! Please enter a solvable puzzle.")
 
     queue = []
