@@ -61,7 +61,7 @@ impossible = [[0, 7, 2],
 def main():
     choice = input("Welcome to my Eight Puzzle solver. Type '1' to use a default puzzle. Type '2' to input your own puzzle. \n")
     if choice == '1':
-        board = hard
+        board = default_initial_board
     elif choice == '2':
         board = []
         print("Ok! Use 0 to represent the blank space. Please input a valid puzzle. Use only numbers 0-9, using each number once.")
