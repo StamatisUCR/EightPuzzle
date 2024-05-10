@@ -118,7 +118,7 @@ class Puzzle:
         return False
 
     def display(self):
-        print(f"Node level: {self.level}")
+        print(f"g(n) = {self.level}, h(n) = {self.heuristic_cost}")
         for row in self.board:
             print(row)
 
