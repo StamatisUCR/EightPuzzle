@@ -11,7 +11,7 @@ class Puzzle:
         self.level = level
         self.blank_pos = blank_pos
         self.heuristic = heuristic
-        self.heuristic_cost = None
+        self.heuristic_cost = 0
         if heuristic is not None:
             self.heuristic_cost = heuristic_cost
 
