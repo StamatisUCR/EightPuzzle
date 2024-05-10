@@ -22,7 +22,7 @@ class Puzzle:
         '''
         self_cost = self.level
         other_cost = other.level
-        if heuristics is not None:
+        if self.heuristic is not None:
             self_cost += self.heuristic_cost
             other_cost += other.heuristic_cost
         return self_cost < other_cost
@@ -126,10 +126,13 @@ class Puzzle:
         '''
         Follow chain of parents to print final solution path
         '''
+        solution_cost = self.level
         solution = [self]
         while self.parent is not None:
             solution.append(self.parent)
             self = self.parent
 
+        print(f"Solution found at depth {solution_cost}!")
+        print("Tracing path to solution:")
         for puzzle in reversed(solution):
             puzzle.display()
