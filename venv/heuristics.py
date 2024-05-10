@@ -8,8 +8,6 @@ def misplaced_tile(board):
     for i, ele in enumerate(flattened_board, start=1):
         if ele != 0 and ele != i:
             misplaced_tiles += 1
-        elif ele == 0 and i != len(flattened_board):
-            misplaced_tiles += 1
     return misplaced_tiles
 
 def manhattan_distance(board):
@@ -18,7 +16,7 @@ def manhattan_distance(board):
     for i, row in enumerate(board):
         for j, ele in enumerate(row):
             if ele == 0:
-                ele = board_width * board_width # blank belongs in last space, this is needed for the following trick
+               continue
 
             # can easily determine goal location using division and modulo
             ele_goal_row = floor((ele-1)/board_width)
