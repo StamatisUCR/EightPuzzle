@@ -1,6 +1,7 @@
 from itertools import chain
 from math import floor
 
+
 # calculates number of tiles that are not in their final place
 def misplaced_tile(board):
     misplaced_tiles = 0
@@ -10,17 +11,17 @@ def misplaced_tile(board):
             misplaced_tiles += 1
     return misplaced_tiles
 
+
 def manhattan_distance(board):
-    board_width = len(board[0]) # assume board is square (3x3, 4x4, etc)
+    board_width = len(board[0])  # assume board is square (3x3, 4x4, etc)
     distance = 0
     for i, row in enumerate(board):
         for j, ele in enumerate(row):
             if ele == 0:
-               continue
+                continue
 
             # can easily determine goal location using division and modulo
-            ele_goal_row = floor((ele-1)/board_width)
-            ele_goal_column = (ele-1) % board_width
+            ele_goal_row = floor((ele - 1) / board_width)
+            ele_goal_column = (ele - 1) % board_width
             distance += abs(i - ele_goal_row) + abs(j - ele_goal_column)
     return distance
-

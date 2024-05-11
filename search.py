@@ -1,13 +1,12 @@
 from heapq import heappop, heappush
 from itertools import chain
 
-from puzzle import Puzzle
 
 def search(puzzle):
-    '''
+    """
     Implements general search algorithm
     :param puzzle: initial state
-    '''
+    """
     nodes_expanded = 0
     max_queue_size = 0
     if puzzle.is_not_solvable():
